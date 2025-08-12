@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${noto_sans_jp.className} antialiased`}>
+      <body className={`${noto_sans_jp.className} antialiased text-gray-700`}>
         {children}
       </body>
     </html>
