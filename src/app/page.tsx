@@ -1,9 +1,11 @@
 "use client";
 
-import { LogInForm } from "@/components/LogInForm";
-import { SignUpForm } from "@/components/SignUpForm";
-import { UserType } from "@/types/type";
 import { useEffect, useState } from "react";
+
+import { UserType } from "@/types/type";
+
+import { LogInForm } from "./components/LogInForm";
+import { SignUpForm } from "./components/SignUpForm";
 
 export default function Home() {
   const [users, setUsers] = useState<UserType[]>([]);

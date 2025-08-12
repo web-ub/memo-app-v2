@@ -4,13 +4,13 @@ import { connect, prisma } from "@/lib/prisma";
 
 export const GET = async (
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
   try {
     const connectResponse = await connect();
     if (connectResponse) return connectResponse;
 
-    const { id } = params;
+    const { id } = await params;
 
     const user = await prisma.user.findFirst({ where: { id } });
     return NextResponse.json(user);

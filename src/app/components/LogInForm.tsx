@@ -5,7 +5,7 @@ import z from "zod";
 import { UserType } from "@/types/type";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "./ui/button";
+import { Button } from "../../components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
+} from "../../components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -23,8 +23,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
+} from "../../components/ui/form";
+import { Input } from "../../components/ui/input";
 
 interface Props {
   users: UserType[];
