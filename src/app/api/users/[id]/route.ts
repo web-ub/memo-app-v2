@@ -13,46 +13,46 @@ export const GET = async (
     const { id } = await params;
 
     const user = await prisma.user.findFirst({ where: { id } });
-    return NextResponse.json(user);
+    return NextResponse.json(user, { status: 200 });
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.json(error, { status: 500 });
   }
 };
 
 export const PUT = async (
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
   try {
     const connectResponse = await connect();
     if (connectResponse) return connectResponse;
 
     const { username } = await req.json();
-    const { id } = params;
+    const { id } = await params;
 
     const updatedUser = await prisma.user.update({
       data: { username },
       where: { id },
     });
-    return NextResponse.json(updatedUser);
+    return NextResponse.json(updatedUser, { status: 200 });
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.json(error, { status: 500 });
   }
 };
 
 export const DELETE = async (
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
   try {
     const connectResponse = await connect();
     if (connectResponse) return connectResponse;
 
-    const { id } = params;
+    const { id } = await params;
 
     const deletedUser = await prisma.user.delete({ where: { id } });
-    return NextResponse.json(deletedUser);
+    return NextResponse.json(deletedUser, { status: 200 });
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.json(error, { status: 500 });
   }
 };

@@ -13,9 +13,9 @@ export const GET = async (req: Request) => {
     const memos = await prisma.memo.findMany({
       where: { userId: userId ?? undefined },
     });
-    return NextResponse.json(memos);
+    return NextResponse.json(memos, { status: 200 });
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.json(error, { status: 500 });
   }
 };
 
@@ -26,13 +26,16 @@ export const POST = async (req: Request) => {
 
     const { title, content, userId } = await req.json();
     if (!title)
-      return NextResponse.json({ message: "タイトルを入力してください" });
+      return NextResponse.json(
+        { message: "タイトルを入力してください" },
+        { status: 400 }
+      );
 
     const newMemo = await prisma.memo.create({
       data: { title, content, userId },
     });
-    return NextResponse.json(newMemo);
+    return NextResponse.json(newMemo, { status: 200 });
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.json(error, { status: 500 });
   }
 };

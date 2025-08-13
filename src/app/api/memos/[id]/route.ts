@@ -4,24 +4,24 @@ import { connect, prisma } from "@/lib/prisma";
 
 export const GET = async (
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
   try {
     const connectResponse = await connect();
     if (connectResponse) return connectResponse;
 
-    const { id } = params;
+    const { id } = await params;
 
     const memo = await prisma.memo.findFirst({ where: { id } });
-    return NextResponse.json(memo);
+    return NextResponse.json(memo, { status: 200 });
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.json(error, { status: 500 });
   }
 };
 
 export const PUT = async (
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
   try {
     const connectResponse = await connect();
@@ -29,29 +29,32 @@ export const PUT = async (
 
     const { title, content, userId } = await req.json();
     if (!title)
-      return NextResponse.json({ message: "タイトルを入力してください" });
-    const { id } = params;
+      return NextResponse.json(
+        { message: "タイトルを入力してください" },
+        { status: 400 }
+      );
+    const { id } = await params;
 
     const updatedMemo = await prisma.memo.update({
       data: { title, content, userId },
       where: { id },
     });
-    return NextResponse.json(updatedMemo);
+    return NextResponse.json(updatedMemo, { status: 200 });
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.json(error, { status: 500 });
   }
 };
 
 export const PATCH = async (
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
   try {
     const connectResponse = await connect();
     if (connectResponse) return connectResponse;
 
     const { title, content } = await req.json();
-    const { id } = params;
+    const { id } = await params;
 
     const updatedMemo = await prisma.memo.update({
       data: {
@@ -60,25 +63,25 @@ export const PATCH = async (
       },
       where: { id },
     });
-    return NextResponse.json(updatedMemo);
+    return NextResponse.json(updatedMemo, { status: 200 });
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.json(error, { status: 500 });
   }
 };
 
 export const DELETE = async (
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
   try {
     const connectResponse = await connect();
     if (connectResponse) return connectResponse;
 
-    const { id } = params;
+    const { id } = await params;
 
     const deletedMemo = await prisma.memo.delete({ where: { id } });
-    return NextResponse.json(deletedMemo);
+    return NextResponse.json(deletedMemo, { status: 200 });
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.json(error, { status: 500 });
   }
 };

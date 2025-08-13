@@ -8,9 +8,9 @@ export const GET = async () => {
     if (connectResponse) return connectResponse;
 
     const users = await prisma.user.findMany();
-    return NextResponse.json(users);
+    return NextResponse.json(users, { status: 200 });
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.json(error, { status: 500 });
   }
 };
 
@@ -22,8 +22,8 @@ export const POST = async (req: Request) => {
     const { username } = await req.json();
 
     const newUser = await prisma.user.create({ data: { username } });
-    return NextResponse.json(newUser);
+    return NextResponse.json(newUser, { status: 200 });
   } catch (error) {
-    return NextResponse.json(error);
+    return NextResponse.json(error, { status: 500 });
   }
 };
