@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
 import {
@@ -13,8 +14,7 @@ import {
 import { MemoType } from "@/types/type";
 
 import { AppWrapperContest } from "./AppWrapper";
-import Link from "next/link";
-import { PlusIcon } from "./PulsIcon";
+import { OptionButton } from "./OptionButton";
 
 const fetchAllMemos = async (userId: string) => {
   const res = await fetch(`/api/memos?userId=${userId}`, { cache: "no-store" });
@@ -27,6 +27,8 @@ export const AppSidebar = () => {
   const [memos, setMemos] = useState<MemoType[]>([]);
   const user = useContext(AppWrapperContest)!;
 
+  const router = useRouter();
+
   const getMemos = async (userId: string) => {
     const memos = await fetchAllMemos(userId);
     setMemos(memos);
@@ -37,15 +39,14 @@ export const AppSidebar = () => {
   }, [user]);
 
   return (
-    <Sidebar className="h-screen" collapsible="none">
+    <Sidebar className="h-screen pt-2" collapsible="none">
       <SidebarContent>
         <SidebarGroup>
           <SidebarContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <PlusIcon size="16" />
-                  <span>Add Memo</span>
+                <SidebarMenuButton asChild>
+                  <OptionButton />
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -58,7 +59,9 @@ export const AppSidebar = () => {
               {memos.map((memo: MemoType) => (
                 <SidebarMenuItem key={memo.id}>
                   <SidebarMenuButton asChild>
-                    <Link href={`${memo.id}`}>{memo.title}</Link>
+                    <span onClick={() => router.push(`/${user.id}/${memo.id}`)}>
+                      {memo.title}
+                    </span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

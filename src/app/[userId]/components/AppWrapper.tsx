@@ -38,9 +38,7 @@ export const AppWrapper = ({
     <AppWrapperContest.Provider value={user!}>
       <SidebarProvider>
         <AppSidebar />
-        <div>
-          <div>{children}</div>
-        </div>
+        <div>{userId ? <div>{children}</div> : <div>Loading</div>}</div>
       </SidebarProvider>
     </AppWrapperContest.Provider>
   );
