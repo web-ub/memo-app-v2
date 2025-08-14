@@ -24,6 +24,8 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { PlusIcon } from "./PulsIcon";
+import { useContext } from "react";
+import { AppWrapperContest } from "./AppWrapper";
 
 const addMemo = async (
   title: string | undefined,
@@ -42,6 +44,8 @@ const addMemo = async (
 export const AddMemoButton = () => {
   const userId = String(useParams().userId);
 
+  const { getMemos } = useContext(AppWrapperContest)!;
+
   const router = useRouter();
 
   const formSchema = z.object({
@@ -57,6 +61,8 @@ export const AddMemoButton = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const newMemo = await addMemo(values.title, userId);
+
+    await getMemos(userId);
 
     const { id } = newMemo;
     router.push(`/${userId}/${id}`);

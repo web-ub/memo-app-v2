@@ -2,7 +2,7 @@
 
 import { MemoType } from "@/types/type";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { EditForm } from "./components/EditForm";
 
 const fetchMemo = async (id: string) => {
@@ -12,8 +12,10 @@ const fetchMemo = async (id: string) => {
   return data;
 };
 
+export const PageContext = createContext<string>("");
+
 export default function Page() {
-  const { memoId } = useParams();
+  const { userId, memoId } = useParams();
   const [memo, setMemo] = useState<MemoType>();
 
   const getMemo = useCallback(async () => {
@@ -26,5 +28,9 @@ export default function Page() {
     getMemo();
   }, [getMemo]);
 
-  return <div>{memo && <EditForm memo={memo!} />}</div>;
+  return (
+    <PageContext.Provider value={String(userId)}>
+      {memo && <EditForm memo={memo!} />}
+    </PageContext.Provider>
+  );
 }
