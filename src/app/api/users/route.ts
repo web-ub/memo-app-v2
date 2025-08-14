@@ -11,6 +11,8 @@ export const GET = async () => {
     return NextResponse.json(users, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 };
 
@@ -25,5 +27,7 @@ export const POST = async (req: Request) => {
     return NextResponse.json(newUser, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 };

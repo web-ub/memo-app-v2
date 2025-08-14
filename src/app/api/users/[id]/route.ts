@@ -16,6 +16,8 @@ export const GET = async (
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 };
 
@@ -37,6 +39,8 @@ export const PUT = async (
     return NextResponse.json(updatedUser, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 };
 
@@ -54,5 +58,7 @@ export const DELETE = async (
     return NextResponse.json(deletedUser, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 };

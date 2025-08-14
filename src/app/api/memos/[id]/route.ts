@@ -16,6 +16,8 @@ export const GET = async (
     return NextResponse.json(memo, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 };
 
@@ -42,6 +44,8 @@ export const PUT = async (
     return NextResponse.json(updatedMemo, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 };
 
@@ -66,6 +70,8 @@ export const PATCH = async (
     return NextResponse.json(updatedMemo, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 };
 
@@ -83,5 +89,7 @@ export const DELETE = async (
     return NextResponse.json(deletedMemo, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 };

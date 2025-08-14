@@ -16,6 +16,8 @@ export const GET = async (req: Request) => {
     return NextResponse.json(memos, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 };
 
@@ -37,5 +39,7 @@ export const POST = async (req: Request) => {
     return NextResponse.json(newMemo, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 };
